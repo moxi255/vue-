@@ -47,6 +47,7 @@ var merge = require('webpack-merge')
 //多入口配置  
 // 通过glob模块读取pages文件夹下的所有对应文件夹下的js后缀文件，如果该文件存在  
 // 那么就作为入口处理  
+(```)
 exports.entries = function() {  
   var entryFiles = glob.sync(PAGE_PATH + '/*/*.js')  
   console.log(entryFiles)  
@@ -59,9 +60,10 @@ exports.entries = function() {
   console.log(map)  
   return map  
 }  
-  
+(```)  
 //多页面输出配置  
 // 与上面的多页面入口配置相同，读取pages文件夹下的对应的html后缀文件，然后放入数组中  
+(```)
 exports.htmlPlugin = function() {  
   let entryHtml = glob.sync(PAGE_PATH + '/*/*.html')  
   let arr = []  
@@ -90,19 +92,22 @@ exports.htmlPlugin = function() {
   })  
   return arr  
 }  
-
+(```)
 # 修改build/webpack.base.conf.js
 
 注释掉  
+(```)
   /*entry: {  
     app: './src/main.js'  
   },*/  
+(```)
 添加   
+(```)
   entry: utils.entries(),  
-
+(```)
 # 修改build/webpack.dev.conf.js  
 注释掉  
-
+(```)
  // https://github.com/ampedandwired/html-webpack-plugin  
 /*    new HtmlWebpackPlugin({  
       filename: 'index.html',  
@@ -110,11 +115,12 @@ exports.htmlPlugin = function() {
       inject: true  
     }),*/  
     // copy custom static assets  
-
+(```)
 在plugins:[]后面添加.concat(utils.htmlPlugin())  
 
 #修改webpack.prod.conf.js
-注释掉  
+注释掉 
+(```)
  /*  new HtmlWebpackPlugin({  
       filename: process.env.NODE_ENV === 'testing'  
         ? 'index.html'  
@@ -131,14 +137,14 @@ exports.htmlPlugin = function() {
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin  
       chunksSortMode: 'dependency'  
     }),*/     
-
+(```)
 在plugins:[]后面添加.concat(utils.htmlPlugin())  
 
 #添加测试文件
 test文件夹  
 
 * test.html文件  
-
+(```)
 <!DOCTYPE html>  
 <html>  
 <head>  
@@ -150,9 +156,9 @@ test文件夹
 <!-- built files will be auto injected -->  
 </body>  
 </html>  
-
+(```)
 * test.js文件
-  
+ (```) 
 import Vue from 'vue'  
 import cell from './test.vue' 
   
@@ -161,9 +167,9 @@ new Vue({
   el: '#app',  
   render: h => h(cell)  
 })  
-
+(```)
 * test.vue文件  
-  
+(```)  
 <template>  
   <div id="app">  
     <cell></cell>  
@@ -175,7 +181,8 @@ import cell from '../../components/cell.vue'
 export default {  
   name: 'app',  
   components: { cell }  
-}  
+}
+(```)
 </script>  
   
 <style>  
